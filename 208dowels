@@ -40,6 +40,12 @@ def facto(lim):
         i += 1
     return result
 
+def sum_square(ox, tx):
+    res = 0
+    for i in range(0, len(ox)):
+        res += pow(ox[i] - tx[i], 2) / tx[i]
+    return res
+
 def combinaison(n, k):
     num = facto(k)
     denum1 = facto(n)
@@ -54,13 +60,35 @@ def param_loi_binomial(valeur_observer):
     res /= 100 * 100
     return res
 
+def fit_validity(sum, degr):
+    i = 1
+    found = False
+    while i != 13:
+        if fit_tab[degr][i] <= sum <= fit_tab[degr][i + 1]:
+            max = fit_tab[0][i]
+            min = fit_tab[0][i + 1]
+            found = True
+            break
+        i += 1
+    if not found:
+        if fit_tab[degr][1] <= sum:
+            max = fit_tab[0][13]
+            ret = 'P < ' + str(max) + '%'
+            return ret
+        if fit_tab[degr][13] >= sum:
+            max = fit_tab[0][1]
+            ret = 'P > ' + str(max) + '%'
+            return ret
+
+    ret = str(min) + '% < P < ' + str(max)+'%'
+    return ret
+
 def my_loop(tab, newTX):
     inc = 0
     count = 0
     newX = []
     while count < len(tab):
         newX.append(str(inc))
-
         if count - 1 >= 0 and count + 1 < len(tab) and tab[count] < 10:
             if tab[count - 1] + tab[count] < tab[count + 1] + tab[count]:
                 tab[count] += tab[count - 1]
@@ -82,11 +110,9 @@ def my_loop(tab, newTX):
                     if inc < 9:
                         newX.append(str(inc))
                     newX.pop(count)
-
             else:
                 newTX[count] += newTX[count + 1]
                 newTX.pop(count+1)
-
         count += 1
         inc += 1
     return tab, newTX, newX, count, inc
@@ -106,11 +132,7 @@ def my_calc_tab(newTab, newX, count, inc):
             newX.pop(count)
     return newTab, newX, count, inc
 
-def my_print_tab(newTab, newTX, newX, count, inc):
-    newTab, newX, count, inc = my_calc_tab(newTab, newX, count, inc)
-    my_tab(newTab, newX, count, inc)
-
-def my_tab(newTab, newX, count, inc):
+def my_tab(newTab, newX, newTX, count, inc):
     for i in range(0, len(newX)):
         tmp = newX[i].split('-')
         if len(tmp) != 1:
@@ -133,6 +155,12 @@ def my_tab(newTab, newX, count, inc):
     for count in range(0, len(newTX)):
         print("%.1f" % newTX[count] + "\t| ", end="")
     print(" 100")
+    return newOX
+
+def my_print_tab(newTab, newTX, newX, count, inc):
+    newTab, newX, count, inc = my_calc_tab(newTab, newX, count, inc)
+    newOX = my_tab(newTab, newX, newTX, count, inc)
+    return newOX, newTX
 
 def my_counter1(tab, binomial):
     newTX = []
@@ -144,11 +172,21 @@ def my_counter1(tab, binomial):
     newTX.append(100 - r)
     return newTX
 
+def my_squarenfit(newOX, newTX):
+    sum = sum_square(newOX, newTX)
+    print("sum of the square differences:\t%.3f"%sum)
+    degr = len(newOX) - 2
+    print("freedom degrees:\t\t{}".format(degr))
+    print("fit validity:\t\t\t" + fit_validity(sum, degr))
+
 def main():
     tab = error_handling()
     binomial = param_loi_binomial(tab)
     TX = my_counter1(tab, binomial)
     newTab, newTx, newX, count, inc = my_loop(tab, TX)
-    my_print_tab(newTab, newTx, newX, count, inc)
+    newOX, newTX = my_print_tab(newTab, newTx, newX, count, inc)
+    print("distribution:\t\t\tB(100, %.4f)" % binomial)
+    my_squarenfit(newOX, newTX)
+    return 0
 
 main()

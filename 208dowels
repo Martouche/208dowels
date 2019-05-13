@@ -108,6 +108,9 @@ def my_calc_tab(newTab, newX, count, inc):
 
 def my_print_tab(newTab, newTX, newX, count, inc):
     newTab, newX, count, inc = my_calc_tab(newTab, newX, count, inc)
+    my_tab(newTab, newX, count, inc)
+
+def my_tab(newTab, newX, count, inc):
     for i in range(0, len(newX)):
         tmp = newX[i].split('-')
         if len(tmp) != 1:

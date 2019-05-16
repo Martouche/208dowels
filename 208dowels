@@ -99,7 +99,7 @@ def my_loop(tab, newTX):
                 newTX[count] += newTX[count - 1]
                 newTX.pop(count - 1)
                 while tab[count - 1] < 10:
-                    print(newX)
+#                    print(newX)
                     tab[count] += tab[count - 1]
                     tab.pop(count - 1)
                     if count < len(newTX) - 1:

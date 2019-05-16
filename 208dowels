@@ -99,7 +99,6 @@ def my_loop(tab, newTX):
                 newTX[count] += newTX[count - 1]
                 newTX.pop(count - 1)
                 while tab[count - 1] < 10:
-#                    print(newX)
                     tab[count] += tab[count - 1]
                     tab.pop(count - 1)
                     if count < len(newTX) - 1:
@@ -178,6 +177,7 @@ def my_squarenfit(newOX, newTX):
     degr = len(newOX) - 2
     print("Degrees of freedom:\t\t{}".format(degr))
     print("Fit validity:\t\t\t" + fit_validity(sum, degr))
+    exit(0)
 
 def main():
     tab = error_handling()

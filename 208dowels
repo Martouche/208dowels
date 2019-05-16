@@ -174,7 +174,7 @@ def my_counter1(tab, binomial):
 
 def my_squarenfit(newOX, newTX):
     sum = sum_square(newOX, newTX)
-    print("Chi-squared:\t%.3f"%sum)
+    print("Chi-squared:\t\t\t%.3f"%sum)
     degr = len(newOX) - 2
     print("Degrees of freedom:\t\t{}".format(degr))
     print("Fit validity:\t\t\t" + fit_validity(sum, degr))
@@ -185,7 +185,7 @@ def main():
     TX = my_counter1(tab, binomial)
     newTab, newTx, newX, count, inc = my_loop(tab, TX)
     newOX, newTX = my_print_tab(newTab, newTx, newX, count, inc)
-    print("distribution:\t\t\tB(100, %.4f)" % binomial)
+    print("Distribution:\t\t\tB(100, %.4f)" % binomial)
     my_squarenfit(newOX, newTX)
     return 0
 

@@ -174,10 +174,10 @@ def my_counter1(tab, binomial):
 
 def my_squarenfit(newOX, newTX):
     sum = sum_square(newOX, newTX)
-    print("sum of the square differences:\t%.3f"%sum)
+    print("Chi-squared:\t%.3f"%sum)
     degr = len(newOX) - 2
-    print("freedom degrees:\t\t{}".format(degr))
-    print("fit validity:\t\t\t" + fit_validity(sum, degr))
+    print("Degrees of freedom:\t\t{}".format(degr))
+    print("Fit validity:\t\t\t" + fit_validity(sum, degr))
 
 def main():
     tab = error_handling()
